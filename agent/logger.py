@@ -73,3 +73,4 @@ def clear_logs() -> None:
     with _log_lock:
         _log_file.write_text("[]")
 
+
