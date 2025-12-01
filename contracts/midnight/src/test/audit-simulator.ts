@@ -21,15 +21,14 @@ import {
     readonly contract: Contract<AuditPrivateState>;
     circuitContext: CircuitContext<AuditPrivateState>;
   
-    constructor(nonce: Uint8Array, riskScore: bigint, attackerWallet: Uint8Array) {
+    constructor(exploitString: Uint8Array, riskScore: bigint) {
       this.contract = new Contract<AuditPrivateState>(witnesses);
       
       const privateState: AuditPrivateState = {
-        nonce,
+        exploitString,
         riskScore,
-        attackerWallet,
       };
-  
+
       const {
         currentPrivateState,
         currentContractState,
@@ -37,7 +36,7 @@ import {
       } = this.contract.initialState(
         constructorContext(privateState, "0".repeat(64))
       );
-  
+
       this.circuitContext = {
         currentPrivateState,
         currentZswapLocalState,
@@ -50,17 +49,15 @@ import {
     }
   
     /**
-     * Switch to a different private state (e.g., different attacker)
+     * Switch to a different private state (e.g., different exploit)
      */
     public switchPrivateState(
-      nonce: Uint8Array,
-      riskScore: bigint,
-      attackerWallet: Uint8Array
+      exploitString: Uint8Array,
+      riskScore: bigint
     ) {
       this.circuitContext.currentPrivateState = {
-        nonce,
+        exploitString,
         riskScore,
-        attackerWallet,
       };
     }
   
@@ -83,15 +80,15 @@ import {
      */
     public submitAudit(
       auditId: Uint8Array,
-      threshold: bigint,
-      expiresAt: bigint
+      auditorId: Uint8Array,
+      threshold: bigint
     ): Ledger {
       // Execute the submitAudit circuit
       this.circuitContext = this.contract.impureCircuits.submitAudit(
         this.circuitContext,
         auditId,
-        threshold,
-        expiresAt
+        auditorId,
+        threshold
       ).context;
   
       return ledger(this.circuitContext.transactionContext.state);

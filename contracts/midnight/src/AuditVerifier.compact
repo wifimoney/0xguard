@@ -6,34 +6,33 @@ pragma language_version >= 0.16 && <= 0.18;
 import CompactStandardLibrary;
 
 // Public ledger state - visible to all
-export ledger proofs: Map<Bytes<32>, Bytes<32>>;          
-export ledger verified_audits: Map<Bytes<32>, Bytes<32>>; // audit_id -> proof_hash (duplicate for query convenience)
-export ledger accepted_at: Map<Bytes<32>, Uint<64>>;      // audit_id -> timestamp
+export ledger proofs: Map<Bytes<32>, Bytes<32>>;          // audit_id -> proof_hash
+export ledger is_verified: Map<Bytes<32>, Bool>;          // audit_id -> is_verified
+export ledger auditor_id: Map<Bytes<32>, Bytes<32>>;      // audit_id -> auditor_id
 
 // Private witness data - never revealed on-chain
-witness nonce(): Bytes<32>;          
-witness risk_score(): Uint<64>;       
-witness attacker_wallet(): Bytes<32>; 
+witness exploit_string(): Bytes<64>;  // The exploit payload string (private)
+witness risk_score(): Uint<64>;       // Risk score (private)
 
 
 export circuit submitAudit(
   audit_id: Bytes<32>,      // Public audit identifier
-  threshold: Uint<64>,      // Minimum risk score required
-  expires_at: Uint<64>     
+  auditor_id: Bytes<32>,    // Public auditor identifier (Judge agent address)
+  threshold: Uint<64>       // Minimum risk score required (e.g., 90)
 ): [] {
 
   // Retrieve private witness data (only accessible to prover)
-  const witnessNonce = nonce();
+  const witnessExploitString = exploit_string();
   const witnessRiskScore = risk_score();
-  const witnessAttackerWallet = attacker_wallet();
 
-
+  // Prove that risk_score >= threshold without revealing the actual score
   assert(witnessRiskScore >= threshold, "risk_score < threshold");
 
   // Generate deterministic proof hash from private and public inputs
-  const proofHash = persistentHash<Vector<3, Bytes<32>>>([audit_id, witnessNonce, witnessAttackerWallet]);
+  const proofHash = persistentHash<Vector<2, Bytes<32>>>([audit_id, witnessExploitString]);
 
+  // Store public state
   proofs.insert(disclose(audit_id), disclose(proofHash));
-  verified_audits.insert(disclose(audit_id), disclose(proofHash));
-  accepted_at.insert(disclose(audit_id), disclose(expires_at));
+  is_verified.insert(disclose(audit_id), disclose(true));
+  auditor_id.insert(disclose(audit_id), disclose(auditor_id));
 }

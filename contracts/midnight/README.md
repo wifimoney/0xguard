@@ -9,22 +9,23 @@
 ### Public Ledger State
 ```compact
 export ledger proofs: Map<Bytes<32>, Bytes<32>>;          // audit_id -> proof_hash
-export ledger verified_audits: Map<Bytes<32>, Bytes<32>>; // audit_id -> proof_hash (query convenience)
-export ledger accepted_at: Map<Bytes<32>, Uint<64>>;      // audit_id -> expiration_timestamp
+export ledger is_verified: Map<Bytes<32>, Bool>;           // audit_id -> is_verified
+export ledger auditor_id: Map<Bytes<32>, Bytes<32>>;      // audit_id -> auditor_id
 ```
 
 ### Private Witness Data (Never Revealed)
 ```compact
-witness nonce(): Bytes<32>;          // Cryptographic randomness
-witness risk_score(): Uint<64>;      // Attacker's security credibility score
-witness attacker_wallet(): Bytes<32>; // Attacker's wallet identifier
+witness exploit_string(): Bytes<64>;  // The exploit payload string
+witness risk_score(): Uint<64>;        // Risk score (0-100)
 ```
 
 ### Core Circuit Logic
 The `submitAudit` circuit proves that:
-1. `risk_score >= threshold` (without revealing the actual score)
-2. Generates cryptographic proof linking audit_id, nonce, and attacker_wallet
-3. Stores proof hashes publicly while keeping sensitive data private
+1. `risk_score >= threshold` (without revealing the actual score or exploit)
+2. Generates cryptographic proof hash from audit_id and exploit_string
+3. Sets `is_verified[audit_id] = true` when proof succeeds
+4. Stores `auditor_id` (Judge agent address) publicly
+5. Keeps exploit_string and risk_score completely private
 
 ---
 
@@ -78,6 +79,23 @@ npm test
 ### Phase 2: Verification & Storage
 1. **Judge Agent** validates successful exploits
 2. **AuditVerifier Contract** proves risk_score >= threshold via ZK
+   - Submits proof to Midnight devnet
+   - Sets `is_verified = true` on-chain
+   - Stores `auditor_id` (Judge address)
 3. **Unibase** stores attack patterns for future reference
+4. **Bounty tokens** awarded to Red Team via Unibase
+
+## Judge Agent Integration
+
+The Judge agent automatically integrates with this contract when vulnerabilities are discovered:
+
+1. Judge detects SUCCESS response from Target
+2. Judge calculates risk_score (98 for SECRET_KEY compromise)
+3. Judge generates audit_id and calls `submit_audit_proof()`
+4. Contract verifies risk_score >= 90 without revealing the score
+5. Contract sets `is_verified = true` and stores `auditor_id`
+6. Judge receives proof_hash and logs verification
+
+See `agent/MIDNIGHT_INTEGRATION.md` for detailed integration guide.
 
 

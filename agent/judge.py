@@ -12,6 +12,7 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent))
 from logger import log
 from unibase import save_bounty_token
+from midnight_client import submit_audit_proof, generate_audit_id
 
 # Import message models - define locally to avoid circular imports
 class ResponseMessage(Model):
@@ -48,6 +49,7 @@ def create_judge_agent(port: int = 8002) -> Agent:
         "monitored_attacks": {},  # Track attack flow: {red_team_address: last_payload}
         "attack_flow": [],  # Track attack sequence: [(red_team_address, payload, timestamp)]
         "bounties_awarded": 0,
+        "audit_proofs": {},  # audit_id -> proof_hash
     }
 
     @judge.on_event("startup")
@@ -106,6 +108,34 @@ def create_judge_agent(port: int = 8002) -> Agent:
             
             ctx.logger.info("CRITICAL VULNERABILITY CONFIRMED!")
             log("Judge", "CRITICAL VULNERABILITY CONFIRMED. Risk Score: 98/100.", "⚖️", "vulnerability", is_vulnerability=True)
+            
+            # Calculate risk score (98 for SECRET_KEY compromise)
+            risk_score = 98
+            threshold = 90
+            
+            # Generate audit_id
+            timestamp = datetime.now().isoformat()
+            audit_id = generate_audit_id(exploit_payload, timestamp)
+            
+            # Submit ZK proof to Midnight
+            try:
+                proof_hash = await submit_audit_proof(
+                    audit_id=audit_id,
+                    exploit_string=exploit_payload,
+                    risk_score=risk_score,
+                    auditor_id=judge.address[:64] if len(judge.address) >= 64 else judge.address + "0" * (64 - len(judge.address)),
+                    threshold=threshold
+                )
+                
+                if proof_hash:
+                    state["audit_proofs"][audit_id] = proof_hash
+                    ctx.logger.info(f"Audit proof submitted: {proof_hash}")
+                else:
+                    ctx.logger.warning("Failed to submit audit proof to Midnight")
+                    
+            except Exception as e:
+                ctx.logger.error(f"Failed to submit audit proof: {str(e)}")
+                log("Judge", f"Error submitting audit proof: {str(e)}", "⚖️", "info")
             
             # Trigger Unibase transaction for bounty token
             try:

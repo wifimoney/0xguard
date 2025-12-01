@@ -1,3 +1,34 @@
-[]
-
-
+[
+  {
+    "timestamp": "19:44:05",
+    "actor": "Midnight",
+    "icon": "\ud83d\udee1\ufe0f",
+    "message": "Generating Zero-Knowledge Proof of Audit...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:44:05",
+    "actor": "Midnight",
+    "icon": "\ud83d\udee1\ufe0f",
+    "message": "Proof Minted. Hash: zk_c469ce659bb81086 (Verified)",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:44:05",
+    "actor": "Midnight",
+    "icon": "\ud83d\udee1\ufe0f",
+    "message": "Generating Zero-Knowledge Proof of Audit...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:44:05",
+    "actor": "Midnight",
+    "icon": "\ud83d\udee1\ufe0f",
+    "message": "Proof Minted. Hash: zk_c469ce659bb81086 (Verified)",
+    "type": "info",
+    "is_vulnerability": false
+  }
+]
