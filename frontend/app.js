@@ -61,6 +61,9 @@ function appendLogToTerminal(log) {
         line.classList.add('vulnerability-line');
     }
     
+    // Add fade-in animation
+    line.style.animation = 'fadeIn 200ms ease-out';
+    
     const timestamp = document.createElement('span');
     timestamp.className = 'terminal-timestamp';
     timestamp.textContent = `[${log.timestamp}]`;
@@ -141,14 +144,14 @@ function addToHivemind(attackVector) {
     }
     
     const item = document.createElement('div');
-    item.className = 'flex items-center justify-between py-1 border-b border-gray-800 last:border-0';
+    item.className = 'flex items-center justify-between py-1.5 border-b border-gray-800 last:border-0 hover:bg-gray-900/30 transition-colors duration-200 rounded px-1';
     
     const vector = document.createElement('span');
-    vector.className = 'mono text-sm';
+    vector.className = 'mono text-sm text-white';
     vector.textContent = attackVector;
     
     const time = document.createElement('span');
-    time.className = 'mono text-xs text-gray-600';
+    time.className = 'text-xs text-gray-500';
     time.textContent = 'Added just now';
     
     item.appendChild(vector);
@@ -187,14 +190,14 @@ function addToZKProofs(proofHash) {
     }
     
     const item = document.createElement('div');
-    item.className = 'flex items-center gap-2 py-2 border-b border-gray-800 last:border-0';
+    item.className = 'flex items-center gap-2 py-2 border-b border-gray-800 last:border-0 hover:bg-gray-900/30 transition-colors duration-200 rounded px-1';
     
     const shield = document.createElement('span');
     shield.textContent = '🛡️';
     
     const hash = document.createElement('a');
     hash.href = '#';
-    hash.className = 'mono text-sm text-blue-400 hover:text-blue-300';
+    hash.className = 'mono text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200';
     hash.textContent = proofHash.length > 20 ? proofHash.substring(0, 20) + '...' : proofHash;
     hash.onclick = (e) => {
         e.preventDefault();
@@ -203,7 +206,7 @@ function addToZKProofs(proofHash) {
     };
     
     const verified = document.createElement('span');
-    verified.className = 'ml-auto text-xs text-green-500 mono';
+    verified.className = 'ml-auto text-xs text-green-500 font-medium';
     verified.textContent = 'Verified';
     
     item.appendChild(shield);
