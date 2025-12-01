@@ -1,10 +1,12 @@
 
 import {
     type CircuitContext,
-    QueryContext,
     sampleContractAddress,
     constructorContext,
   } from "@midnight-ntwrk/compact-runtime";
+  import {
+    QueryContext,
+  } from "@midnight-ntwrk/onchain-runtime";
   import {
     Contract,
     type Ledger,

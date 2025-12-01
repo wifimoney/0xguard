@@ -31,9 +31,8 @@ The `submitAudit` circuit proves that:
 ## Quick Setup
 
 ### Prerequisites
-- **Node.js** 18+ 
 - **Midnight Network** development environment
-- **Compact** compiler (`@midnight-ntwrk/compact-runtime`)
+- **Compact** compiler 
 
 ### Installation & Build
 ```bash
