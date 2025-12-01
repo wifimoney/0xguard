@@ -1,0 +1,154 @@
+[
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Writing new vector to Hivemind Memory: fetch_ai_2024",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Exploit saved to file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Success. New exploit saved to Hivemind Memory.",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Writing new vector to Hivemind Memory: ' OR '1'='1",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Exploit saved to file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Success. New exploit saved to Hivemind Memory.",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Writing new vector to Hivemind Memory: admin' --",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Exploit saved to file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Success. New exploit saved to Hivemind Memory.",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Querying Hivemind Memory for known exploits...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Loaded 3 exploits from file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Writing new vector to Hivemind Memory: fetch_ai_2024",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Exploit saved to file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Success. New exploit saved to Hivemind Memory.",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Querying Hivemind Memory for known exploits...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:25:54",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Loaded 1 exploits from file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:32:05",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Writing new vector to Hivemind Memory...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:32:05",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Bounty token saved to file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "19:32:05",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Success. Transaction: 0xa825fdbc50ccc595",
+    "type": "info",
+    "is_vulnerability": false
+  }
+]

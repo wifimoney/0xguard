@@ -19,7 +19,7 @@ class ResponseMessage(Model):
 SECRET_KEY = "fetch_ai_2024"
 
 
-def create_target_agent(port: int = 8000) -> Agent:
+def create_target_agent(port: int = 8000, judge_address: str = None) -> Agent:
     target = Agent(
         name="target_agent",
         port=port,
@@ -54,7 +54,15 @@ def create_target_agent(port: int = 8000) -> Agent:
             ctx.logger.info("Attack blocked")
             log("Target", f"Attack blocked: '{msg.payload}'", "🎯", "info")
 
+        # Send response to Red Team (original sender)
         await ctx.send(sender, response)
+        
+        # Also send to Judge for monitoring (if Judge address is provided)
+        if judge_address:
+            try:
+                await ctx.send(judge_address, response)
+            except Exception as e:
+                ctx.logger.debug(f"Could not send to Judge: {str(e)}")
 
     return target
 

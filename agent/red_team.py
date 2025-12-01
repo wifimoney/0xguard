@@ -7,6 +7,7 @@ from pathlib import Path
 # Add agent directory to path for logger import
 sys.path.insert(0, str(Path(__file__).parent))
 from logger import log
+from unibase import get_known_exploits, save_exploit, format_exploit_message
 
 # ASI.Cloud API Configuration
 ASI_API_KEY = os.getenv("ASI_API_KEY", "sk_f19e4e7f7c0e460e9ebeed7132a13fedcca7c7d7133a482ca0636e2850751d2b")
@@ -89,6 +90,7 @@ async def generate_attack() -> str:
 def create_red_team_agent(
     target_address: str,
     port: int = 8001,
+    judge_address: str = None,
 ) -> Agent:
     red_team = Agent(
         name="red_team_agent",
@@ -110,6 +112,8 @@ def create_red_team_agent(
         "attack_count": 0,
         "attack_complete": False,
         "max_attacks": 50,  # Limit to prevent infinite loops
+        "known_exploits": set(),  # Set of known exploit strings from Unibase
+        "last_payload": None,  # Track last sent payload to save on SUCCESS
     }
 
     @red_team.on_event("startup")
@@ -118,6 +122,26 @@ def create_red_team_agent(
         ctx.logger.info(f"Target: {target_address}")
         log("RedTeam", f"Red Team Agent started: {red_team.address}", "🔴", "info")
         log("RedTeam", f"Target: {target_address}", "🔴", "info")
+        
+        # Read known exploits from Unibase on startup
+        try:
+            # Try to get messages from MCP if available
+            # Note: MCP integration requires MCP client - for now using file fallback
+            mcp_messages = []  # Would be populated by MCP call if available
+            use_mcp = False  # Set to True when MCP client is properly integrated
+            
+            state["known_exploits"] = await get_known_exploits(use_mcp=use_mcp, mcp_messages=mcp_messages)
+            
+            if state["known_exploits"]:
+                log("Unibase", f"Loaded {len(state['known_exploits'])} known exploits from Hivemind Memory", "💾", "info")
+                for exploit in list(state["known_exploits"])[:5]:  # Show first 5
+                    ctx.logger.info(f"Known exploit: {exploit}")
+            else:
+                log("Unibase", "No known exploits found in Hivemind Memory", "💾", "info")
+        except Exception as e:
+            ctx.logger.warning(f"Failed to load exploits from Unibase: {str(e)}")
+            log("Unibase", f"Error loading exploits: {str(e)}", "💾", "info")
+            state["known_exploits"] = set()
 
     @red_team.on_interval(period=3.0)
     async def send_attack(ctx: Context):
@@ -127,16 +151,27 @@ def create_red_team_agent(
         # Generate attack using ASI.Cloud API
         payload = await generate_attack()
         
+        # Track the payload we're sending so we can save it if it succeeds
+        state["last_payload"] = payload
+        
         state["attack_count"] += 1
         ctx.logger.info(
             f"Sending attack #{state['attack_count']}: '{payload}'"
         )
         log("RedTeam", f"Executing vector: '{payload}'", "🔴", "attack")
 
+        # Send attack to Target
         await ctx.send(
             target_address,
             AttackMessage(payload=payload),
         )
+        
+        # Also send to Judge for monitoring (if Judge address is provided)
+        if judge_address:
+            try:
+                await ctx.send(judge_address, AttackMessage(payload=payload))
+            except Exception as e:
+                ctx.logger.debug(f"Could not send to Judge: {str(e)}")
 
     @red_team.on_message(model=ResponseMessage)
     async def handle_response(ctx: Context, sender: str, msg: ResponseMessage):
@@ -147,6 +182,24 @@ def create_red_team_agent(
         if msg.status == "SUCCESS":
             ctx.logger.info("SUCCESS! Secret key found!")
             log("RedTeam", "SUCCESS! Secret key found! Vulnerability exploited!", "🔴", "vulnerability", is_vulnerability=True)
+            
+            # Save the successful exploit to Unibase
+            successful_payload = state.get("last_payload")
+            if successful_payload and successful_payload not in state["known_exploits"]:
+                try:
+                    # Save exploit (will use MCP if available, otherwise file fallback)
+                    use_mcp = False  # Set to True when MCP client is properly integrated
+                    await save_exploit(successful_payload, state["known_exploits"], use_mcp=use_mcp)
+                    
+                    # If using MCP, the caller should also invoke mcp_membase_save_message
+                    # formatted_message = format_exploit_message(successful_payload)
+                    # mcp_membase_save_message(formatted_message, "assistant")
+                except Exception as e:
+                    ctx.logger.warning(f"Failed to save exploit to Unibase: {str(e)}")
+                    log("Unibase", f"Error saving exploit: {str(e)}", "💾", "info")
+            elif successful_payload in state["known_exploits"]:
+                log("Unibase", f"Exploit already known, skipping save: {successful_payload}", "💾", "info")
+            
             state["attack_complete"] = True
         elif msg.status == "DENIED":
             ctx.logger.info("Attack denied, continuing...")
