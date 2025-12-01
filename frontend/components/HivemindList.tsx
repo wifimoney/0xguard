@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import type { LogEntry } from '@/types';
 
 interface HivemindItem {
@@ -34,7 +35,17 @@ export default function HivemindList({ logs }: { logs: LogEntry[] }) {
 
   return (
     <div className="bg-[#111111] border border-gray-800 rounded-lg p-4 hover:border-gray-700 transition-all duration-200">
-      <h2 className="text-lg font-semibold mb-4 tracking-tight">Hivemind Dictionary (Unibase)</h2>
+      <div className="flex items-center gap-2 mb-4">
+        {/* Unibase Protocol Symbol */}
+        <Image
+          src="/MsMpvtzV_200x200.png"
+          alt="Unibase Protocol"
+          width={20}
+          height={20}
+          className="w-5 h-5"
+        />
+        <h2 className="text-lg font-semibold tracking-tight">Hivemind Dictionary (Unibase)</h2>
+      </div>
       <div className="space-y-2">
         {attacks.length === 0 ? (
           <div className="text-gray-500 text-sm">No attacks learned yet...</div>

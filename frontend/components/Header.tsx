@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export default function Header() {
   return (
@@ -7,18 +8,14 @@ export default function Header() {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             {/* OxGuard Symbol */}
-            <svg
-              className="w-6 h-6 text-white"
-              viewBox="0 0 100 100"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="xMidYMid meet"
+            <Image
+              src="/oxguard.png"
+              alt="0xGuard"
+              width={24}
+              height={24}
+              className="w-6 h-6"
               style={{ aspectRatio: '1 / 1' }}
-            >
-              <path d="M 8 12 L 8 22 L 62 20 L 62 14 Z" fill="currentColor" />
-              <path d="M 8 30 L 8 40 L 54 38 L 54 32 Z" fill="currentColor" />
-              <path d="M 12 40 L 50 83 L 52 40 Z" fill="currentColor" />
-            </svg>
+            />
             <span className="font-semibold text-xl tracking-tight">0xGuard</span>
           </div>
           <div className="text-gray-400 text-sm">my-team / 0xGuard / production</div>
