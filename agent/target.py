@@ -50,7 +50,7 @@ def create_target_agent(port: int = None, judge_address: str = None) -> Agent:
         ctx.logger.info(f"Target Agent started: {target.address}")
         ctx.logger.info("Protecting SECRET_KEY...")
         log("Target", f"Target Agent started: {target.address}", "🎯", "info")
-        log("Target", "Listening on port 8000", "🎯", "info")
+        log("Target", f"Listening on port {agent_port}", "🎯", "info")
 
     @target.on_message(model=AttackMessage)
     async def handle_attack(ctx: Context, sender: str, msg: AttackMessage):
