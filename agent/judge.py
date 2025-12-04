@@ -2,8 +2,8 @@
 Judge Agent - Monitors Red Team and Target communications.
 Triggers Unibase transactions for bounty tokens when vulnerabilities are discovered.
 """
-from uagents import Agent, Context, Model, Protocol
-from uagents_core.contrib.protocols.chat import (
+from uagents import Agent, Context, Model, Protocol  # pyright: ignore[reportMissingImports]
+from uagents_core.contrib.protocols.chat import (  # pyright: ignore[reportMissingImports]
     ChatMessage,
     ChatAcknowledgement,
     TextContent,
