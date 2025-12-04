@@ -118,13 +118,16 @@ def create_red_team_agent(
     
     # Include the Chat Protocol (optional - only for Agentverse registration)
     # Note: This may fail verification in some uagents versions, but core functionality works without it
+    # CRITICAL: Error handling is required - without it, agents will crash at startup if protocol fails to load
     try:
         chat_proto = Protocol(spec=chat_protocol_spec)
         red_team.include(chat_proto)
-    except (RuntimeError, Exception) as e:
+    except Exception as e:
         # Chat protocol is optional - core agent communication works without it
         # Only needed for Agentverse registration features
-        pass
+        # Log the error for debugging but don't crash the agent
+        log("RedTeam", f"Chat Protocol inclusion failed (optional): {type(e).__name__}: {e}", "🔴", "info")
+        # Agent will continue to function without chat protocol
 
     # Fallback payloads (used if ASI API fails)
     fallback_payloads = [

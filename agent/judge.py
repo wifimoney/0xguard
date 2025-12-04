@@ -60,13 +60,16 @@ def create_judge_agent(port: int = None) -> Agent:
     
     # Include the Chat Protocol (optional - only for Agentverse registration)
     # Note: This may fail verification in some uagents versions, but core functionality works without it
+    # CRITICAL: Error handling is required - without it, agents will crash at startup if protocol fails to load
     try:
         chat_proto = Protocol(spec=chat_protocol_spec)
         judge.include(chat_proto)
-    except (RuntimeError, Exception) as e:
+    except Exception as e:
         # Chat protocol is optional - core agent communication works without it
         # Only needed for Agentverse registration features
-        pass
+        # Log the error for debugging but don't crash the agent
+        log("Judge", f"Chat Protocol inclusion failed (optional): {type(e).__name__}: {e}", "⚖️", "info")
+        # Agent will continue to function without chat protocol
 
     state = {
         "monitored_attacks": {},  # Track attack flow: {red_team_address: last_payload}
