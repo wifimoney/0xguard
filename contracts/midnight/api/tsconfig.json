@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "..",
+    "baseUrl": "..",
+    "paths": {
+      "@midnight-ntwrk/*": ["../node_modules/@midnight-ntwrk/*"]
+    }
+  },
+  "include": ["ts/src/**/*", "../src/**/*", "../build/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

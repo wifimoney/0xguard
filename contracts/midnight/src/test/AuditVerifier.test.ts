@@ -4,13 +4,13 @@ import {
   setNetworkId,
 } from "@midnight-ntwrk/midnight-js-network-id";
 import { describe, it, expect } from "vitest";
-import { randomBytes } from "./utils.js";
+import { randomBytes, padBytes } from "./utils.js";
 
 setNetworkId(NetworkId.Undeployed);
 
 describe("AuditVerifier smart contract", () => {
   it("generates initial ledger state deterministically", () => {
-    const exploitString = new Uint8Array(Buffer.from("fetch_ai_2024"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("fetch_ai_2024")), 64);
     const riskScore = 95n;
 
     const simulator0 = new AuditVerifierSimulator(
@@ -33,7 +33,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("properly initializes ledger state and private state", () => {
-    const exploitString = new Uint8Array(Buffer.from("fetch_ai_2024"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("fetch_ai_2024")), 64);
     const riskScore = 95n;
 
     const simulator = new AuditVerifierSimulator(
@@ -53,7 +53,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("lets you submit an audit with valid risk_score", () => {
-    const exploitString = new Uint8Array(Buffer.from("fetch_ai_2024"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("fetch_ai_2024")), 64);
     const riskScore = 95n;
     const simulator = new AuditVerifierSimulator(
       exploitString,
@@ -82,7 +82,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("lets you submit multiple audits from same auditor", () => {
-    const exploitString = new Uint8Array(Buffer.from("fetch_ai_2024"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("fetch_ai_2024")), 64);
     const riskScore = 97n;
     const simulator = new AuditVerifierSimulator(
       exploitString,
@@ -110,7 +110,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("lets a different auditor submit an audit", () => {
-    const exploitString1 = new Uint8Array(Buffer.from("exploit1"));
+    const exploitString1 = padBytes(new Uint8Array(Buffer.from("exploit1")), 64);
     const simulator = new AuditVerifierSimulator(
       exploitString1,
       95n,
@@ -121,7 +121,7 @@ describe("AuditVerifier smart contract", () => {
     simulator.submitAudit(auditId1, auditorId1, 90n);
 
     // Switch to different exploit
-    const exploitString2 = new Uint8Array(Buffer.from("exploit2"));
+    const exploitString2 = padBytes(new Uint8Array(Buffer.from("exploit2")), 64);
     simulator.switchPrivateState(exploitString2, 98n);
 
     const auditId2 = randomBytes(32);
@@ -135,7 +135,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("doesn't let you submit audit with risk_score below threshold", () => {
-    const exploitString = new Uint8Array(Buffer.from("low_risk_exploit"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("low_risk_exploit")), 64);
     const riskScore = 85n; // Below threshold
     const simulator = new AuditVerifierSimulator(
       exploitString,
@@ -152,7 +152,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("accepts audit with risk_score exactly at threshold", () => {
-    const exploitString = new Uint8Array(Buffer.from("threshold_exploit"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("threshold_exploit")), 64);
     const riskScore = 90n; // Exactly at threshold
     const simulator = new AuditVerifierSimulator(
       exploitString,
@@ -171,7 +171,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("stores different proof hashes for different audits", () => {
-    const exploitString = new Uint8Array(Buffer.from("test_exploit"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("test_exploit")), 64);
     const riskScore = 95n;
     const simulator = new AuditVerifierSimulator(
       exploitString,
@@ -195,7 +195,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("allows submitting audit with maximum u64 risk_score", () => {
-    const exploitString = new Uint8Array(Buffer.from("max_risk_exploit"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("max_risk_exploit")), 64);
     const riskScore = 18446744073709551615n; // Max u64
     const simulator = new AuditVerifierSimulator(
       exploitString,
@@ -213,7 +213,7 @@ describe("AuditVerifier smart contract", () => {
   });
 
   it("maintains separate entries in all three maps", () => {
-    const exploitString = new Uint8Array(Buffer.from("test_exploit"));
+    const exploitString = padBytes(new Uint8Array(Buffer.from("test_exploit")), 64);
     const simulator = new AuditVerifierSimulator(
       exploitString,
       95n,

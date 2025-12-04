@@ -1,7 +1,17 @@
-from uagents import Agent, Context, Model
+from uagents import Agent, Context, Model, Protocol  # pyright: ignore[reportMissingImports]
+from uagents_core.contrib.protocols.chat import (  # pyright: ignore[reportMissingImports]
+    ChatMessage,
+    ChatAcknowledgement,
+    TextContent,
+    chat_protocol_spec
+)
+from uagents_core.utils.registration import (  # pyright: ignore[reportMissingImports]
+    register_chat_agent,
+    RegistrationRequestCredentials,
+)
 import sys
 import os
-import httpx
+import httpx  # pyright: ignore[reportMissingImports]
 from pathlib import Path
 
 # Add agent directory to path for logger import
@@ -89,15 +99,26 @@ async def generate_attack() -> str:
 
 def create_red_team_agent(
     target_address: str,
-    port: int = 8001,
+    port: int = None,
     judge_address: str = None,
 ) -> Agent:
+    # Get configuration from environment variables with sensible defaults
+    agent_ip = os.getenv("RED_TEAM_IP") or os.getenv("AGENT_IP", "localhost")
+    agent_port = port or int(os.getenv("RED_TEAM_PORT") or os.getenv("AGENT_PORT", "8001"))
+    agent_seed = os.getenv("RED_TEAM_SEED") or os.getenv("AGENT_SEED", "red_team_secret_seed_phrase")
+    use_mailbox = os.getenv("USE_MAILBOX", "true").lower() == "true"
+    
     red_team = Agent(
         name="red_team_agent",
-        port=port,
-        seed="red_team_secret_seed_phrase",
-        endpoint=[f"http://localhost:{port}/submit"],
+        port=agent_port,
+        seed=agent_seed,  # CRITICAL: Don't hardcode seeds in production!
+        endpoint=[f"http://{agent_ip}:{agent_port}/submit"],
+        mailbox=use_mailbox,  # Recommended for Agentverse
     )
+    
+    # Include the Chat Protocol
+    chat_proto = Protocol(spec=chat_protocol_spec)
+    red_team.include(chat_proto)
 
     # Fallback payloads (used if ASI API fails)
     fallback_payloads = [
@@ -122,6 +143,30 @@ def create_red_team_agent(
         ctx.logger.info(f"Target: {target_address}")
         log("RedTeam", f"Red Team Agent started: {red_team.address}", "🔴", "info")
         log("RedTeam", f"Target: {target_address}", "🔴", "info")
+        
+        # Register with Agentverse
+        try:
+            agentverse_key = os.environ.get("AGENTVERSE_KEY")
+            agent_seed_phrase = os.environ.get("AGENT_SEED_PHRASE") or agent_seed
+            endpoint_url = f"http://{agent_ip}:{agent_port}/submit"
+            
+            if agentverse_key:
+                register_chat_agent(
+                    "red-team",
+                    endpoint_url,
+                    active=True,
+                    credentials=RegistrationRequestCredentials(
+                        agentverse_api_key=agentverse_key,
+                        agent_seed_phrase=agent_seed_phrase,
+                    ),
+                )
+                ctx.logger.info(f"Red Team Agent registered with Agentverse at {endpoint_url}")
+                log("RedTeam", f"Registered with Agentverse: {endpoint_url}", "🔴", "info")
+            else:
+                ctx.logger.warning("AGENTVERSE_KEY not set, skipping Agentverse registration")
+        except Exception as e:
+            ctx.logger.error(f"Failed to register with Agentverse: {str(e)}")
+            log("RedTeam", f"Agentverse registration error: {str(e)}", "🔴", "info")
         
         # Read known exploits from Unibase on startup
         try:
@@ -214,6 +259,5 @@ def create_red_team_agent(
 if __name__ == "__main__":
     agent = create_red_team_agent(
         target_address="agent1qf2mssnkhf29fk7vj2fy8ekmhdfke0ptu4k9dyvfcuk7tt6easatge9z96d",
-        port=8001,
     )
     agent.run()

@@ -9,3 +9,19 @@ export const randomBytes = (length: number): Uint8Array => {
   crypto.getRandomValues(bytes);
   return bytes;
 };
+
+/**
+ * Pads a Uint8Array to the specified length with zeros.
+ *
+ * @param data The data to pad.
+ * @param length The target length.
+ * @returns A `Uint8Array` of the specified length.
+ */
+export const padBytes = (data: Uint8Array, length: number): Uint8Array => {
+  if (data.length >= length) {
+    return data.slice(0, length);
+  }
+  const padded = new Uint8Array(length);
+  padded.set(data);
+  return padded;
+};

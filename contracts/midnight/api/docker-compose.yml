@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: .. 
+      dockerfile: api/Dockerfile
+    container_name: midnight_api
+    working_dir: /app
+    env_file:
+      - .env
+    environment:
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./python:/app/python 
+      - ./ts:/app/ts 
+    command: python python/main.py
