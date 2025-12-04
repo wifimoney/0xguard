@@ -24,3 +24,13 @@ export interface Audit {
   intensity?: string;
 }
 
+export interface ProofDetail {
+  hash: string;
+  timestamp: string;
+  verified: boolean;
+  auditId?: string;
+  riskScore?: number;
+  auditorId?: string;
+  exploitHash?: string;
+}
+
