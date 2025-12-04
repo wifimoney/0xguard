@@ -2,23 +2,18 @@
 
 import React, { useState } from 'react';
 import Header from '@/components/Header';
-import StatusBar from '@/components/StatusBar';
+import DashboardLayout, { useSearch } from '@/components/DashboardLayout';
+import AuditList from '@/components/AuditList';
 import NewAuditModal from '@/components/NewAuditModal';
-import AgentCard from '@/components/AgentCard';
-import { RedTeamStatus } from '@/components/RedTeamStatus';
-import { TargetStatus } from '@/components/TargetStatus';
-import { JudgeStatus } from '@/components/JudgeStatus';
-import Terminal from '@/components/Terminal';
-import HivemindList from '@/components/HivemindList';
-import ZKProofsList from '@/components/ZKProofsList';
-import { useLogs } from '@/hooks/useLogs';
 import { useToast } from '@/hooks/useToast';
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
-  const { logs, resetLogs } = useLogs();
+function HomeContent() {
   const toast = useToast();
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeAuditAddress, setActiveAuditAddress] = useState<string | undefined>();
+  const searchContext = useSearch();
+  const searchQuery = searchContext?.searchQuery || '';
 
   const handleNewAuditClick = () => {
     setIsModalOpen(true);
@@ -35,70 +30,53 @@ export default function Home() {
       const data = await response.json();
 
       if (data.success) {
-        // Clear terminal logs
-        resetLogs();
-        
-        // Update active audit address
-        setActiveAuditAddress(targetAddress);
-        
-        // Show success toast
-        toast.info('Swarm deployed successfully');
-        
-        // Close modal
+        toast.info('Audit started successfully');
         setIsModalOpen(false);
+        // Refresh the page to show the new audit
+        router.refresh();
       } else {
-        toast.error(data.error || 'Failed to deploy swarm');
+        toast.error(data.error || 'Failed to start audit');
       }
     } catch (error) {
-      console.error('Error deploying swarm:', error);
-      toast.error('Failed to deploy swarm');
+      console.error('Error starting audit:', error);
+      toast.error('Failed to start audit');
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Header />
-      <StatusBar activeAuditAddress={activeAuditAddress} onNewAuditClick={handleNewAuditClick} />
-      <NewAuditModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onDeploy={handleDeploy} />
-
-      {/* Main Dashboard Content */}
-      <div className="max-w-[1920px] mx-auto px-6 py-6">
-        <div className="bg-[#0f1114] rounded-lg p-6 shadow-[0_0_10px_rgba(0,0,0,0.25)]">
-          <div className="grid grid-cols-12 gap-4">
-            {/* Left Column: Swarm Status */}
-            <div className="col-span-3">
-              <h2 className="text-lg font-semibold mb-4 tracking-tight">Active Agents</h2>
-              <div className="space-y-2">
-              {/* Red Team Status */}
-              <div className="bg-[#09090b] border border-[#27272a] rounded-lg p-4 hover:border-gray-700 transition-all duration-200">
-                <RedTeamStatus />
-              </div>
-
-              {/* Target Status */}
-              <div className="bg-[#09090b] border border-[#27272a] rounded-lg p-4 hover:border-gray-700 transition-all duration-200">
-                <TargetStatus />
-              </div>
-
-              {/* Judge Status */}
-              <div className="bg-[#09090b] border border-[#27272a] rounded-lg p-4 hover:border-gray-700 transition-all duration-200">
-                <JudgeStatus />
-              </div>
-              </div>
-            </div>
-
-            {/* Center Column: Live Terminal */}
-            <div className="col-span-6">
-              <Terminal logs={logs} />
-            </div>
-
-            {/* Right Column: Memory & Proofs */}
-            <div className="col-span-3 space-y-4">
-              <HivemindList logs={logs} />
-              <ZKProofsList logs={logs} />
-            </div>
+    <>
+      <div className="space-y-6">
+        {/* Projects Header */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleNewAuditClick}
+              className="px-4 py-2 bg-white text-black rounded-lg text-sm font-medium hover:bg-gray-100 transition-all duration-200 flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add New...
+            </button>
           </div>
         </div>
+
+        {/* Audit List */}
+        <AuditList searchQuery={searchQuery} />
       </div>
-    </div>
+      <NewAuditModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onDeploy={handleDeploy} />
+    </>
+  );
+}
+
+export default function Home() {
+  return (
+    <>
+      <Header />
+      <DashboardLayout>
+        <HomeContent />
+      </DashboardLayout>
+    </>
   );
 }

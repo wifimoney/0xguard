@@ -2,16 +2,19 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useWallet } from '@/hooks/useWallet';
 
 export default function Header() {
   const { isConnected, address, isLoading, connectWallet, disconnectWallet, getTruncatedAddress } = useWallet();
+  const pathname = usePathname();
 
   return (
     <header className="border-b border-[#27272a] bg-black sticky top-0 z-50 backdrop-blur-sm bg-black/95">
       <div className="max-w-[1920px] mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             {/* OxGuard Symbol */}
             <Image
               src="/oxguard.png"
@@ -22,7 +25,7 @@ export default function Header() {
               style={{ aspectRatio: '1 / 1' }}
             />
             <span className="font-semibold text-xl tracking-tight">0xGuard</span>
-          </div>
+          </Link>
           <div className="text-gray-400 text-sm">my-team / audit-production</div>
         </div>
         <div className="flex items-center gap-3">

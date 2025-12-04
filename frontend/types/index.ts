@@ -13,3 +13,14 @@ export interface AgentStatus {
   judge: string;
 }
 
+export interface Audit {
+  id: string;
+  targetAddress: string;
+  status: 'active' | 'completed' | 'failed';
+  createdAt: string;
+  updatedAt: string;
+  vulnerabilityCount?: number;
+  riskScore?: number;
+  intensity?: string;
+}
+

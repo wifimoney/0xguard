@@ -166,5 +166,349 @@
     "message": "Using fallback payload: admin' --",
     "type": "info",
     "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:39",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Chat Protocol inclusion failed (optional): RuntimeError: Protocol AgentChatProtocol:0.3.0 failed verification",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:39",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Red Team Agent started: agent1qgadd5a2wvt3whcw0zktdwluujfmegjk2q92duxpz747hxx036w3qvvgvcm",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:39",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Target: agent1qf2mssnkhf29fk7vj2fy8ekmhdfke0ptu4k9dyvfcuk7tt6easatge9z96d",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:39",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Registered with Agentverse: http://estimated-sheets-promoted-chris.trycloudflare.com:443/submit",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:39",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Querying Hivemind Memory for known exploits...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:39",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Loaded 2 exploits from file storage",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:39",
+    "actor": "Unibase",
+    "icon": "\ud83d\udcbe",
+    "message": "Loaded 2 known exploits from Hivemind Memory",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:40",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:40",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:40",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: 1' OR '1'='1",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:40",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '1' OR '1'='1'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:43",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:43",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:43",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: ' UNION SELECT NULL--",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:43",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '' UNION SELECT NULL--'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:46",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:46",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:46",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: ' UNION SELECT NULL--",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:46",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '' UNION SELECT NULL--'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:49",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:49",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:49",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: admin' --",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:49",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: 'admin' --'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:52",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:52",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:52",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: ' UNION SELECT NULL--",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:52",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '' UNION SELECT NULL--'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:55",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:55",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:55",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: 1' OR '1'='1",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:55",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '1' OR '1'='1'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:58",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:58",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:58",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: ' UNION SELECT NULL--",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:04:58",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '' UNION SELECT NULL--'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:02",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:02",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:02",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: ' UNION SELECT NULL--",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:02",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '' UNION SELECT NULL--'",
+    "type": "attack",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:05",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Generating SQL injection variant based on previous failure...",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:05",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "API request failed: [Errno 8] nodename nor servname provided, or not known, using fallback",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:05",
+    "actor": "ASI.Cloud",
+    "icon": "\ud83e\udde0",
+    "message": "Using fallback payload: 1' OR '1'='1",
+    "type": "info",
+    "is_vulnerability": false
+  },
+  {
+    "timestamp": "17:05:05",
+    "actor": "RedTeam",
+    "icon": "\ud83d\udd34",
+    "message": "Executing vector: '1' OR '1'='1'",
+    "type": "attack",
+    "is_vulnerability": false
   }
 ]
