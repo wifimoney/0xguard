@@ -1,0 +1,55 @@
+# Environment files - NEVER include in Docker image
+.env
+.env.*
+*.env
+api/.env
+api/.env.*
+
+# Git
+.git
+.gitignore
+.github
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Testing
+coverage
+.coverage
+
+# Documentation
+README.md
+docs/
+
+# Build artifacts
+build/
+dist/
+
+# Midnight local data
+midnight-level-db/
